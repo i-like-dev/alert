@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>公告欄</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        /* Existing CSS styles */
+        body{
+            background-color: #333;
+            color: #e2e2e2;
+        }
+        .notification {
+            background: #e2e2e2;
+            color: #333;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: red;
+        }
+
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const socket = io();
+            socket.on('notification', function(data) {
+                const notificationArea = document.getElementById('notifications');
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.innerHTML = '<h2>' + data.title + '  :By @' + data.author + '</h2><p>' + data.message + '</p><span class="delete-btn" onclick="deleteNotification(this)">刪除本公告</span>';
+                notificationArea.prepend(notification);
+            });
+        });
+
+        function deleteNotification(element) {
+            element.parentNode.remove();
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">公告</span>欄</h1>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div id="notifications"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>發佈公告</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            background-color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        .admin-panel {
+            background: #333;
+            color: white;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        input, textarea, button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            background: #50b3a2;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #4a9b8f;
+        }
+    </style>
+    <script>
+        const socket = io();
+        function sendNotification() {
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+            const message = document.getElementById('message').value;
+            socket.emit('send notification', { title, author, message });
+        }
+    </script>
+</head>
+<body>
+    <div class="container admin-panel">
+        <h1>傳送公告</h1>
+        <input type="text" id="title" placeholder="訊息主旨">
+        <input type="text" id="author" placeholder="作者">
+        <textarea id="message" placeholder="訊息內容"></textarea>
+        <button onclick="sendNotification()">發送</button>
+    </div>
+</body>
+</html>
